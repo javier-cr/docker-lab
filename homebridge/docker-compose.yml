@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  homebridge:
+    container_name: ${CONTAINER_NAME}
+    image: ${IMAGE}
+    restart: always
+
+    environment:
+      - TZ=${TZ}
+      - PGID=1000
+      - PUID=1000
+      - DSM_HOSTNAME=${DSM_HOSTNAME}
+      - HOMEBRIDGE_CONFIG_UI=${HOMEBRIDGE_CONFIG_UI}
+      - HOMEBRIDGE_CONFIG_UI_PORT=${HOMEBRIDGE_CONFIG_UI_PORT}
+    volumes:
+      - ./:/homebridge
+
+    ports:
+      - '80:80/tcp' #Config UI X webGUI
+      - '51824:51824/tcp' #HomeKit port
+
+    networks:
+      cont-network:
+        ipv4_address: ${IPV4_ADDRESS}
+
+networks:
+  cont-network:
+    driver: macvlan
+    driver_opts:
+      parent: ${PARENT}
+    ipam:
+      config:
+      - subnet: ${SUBNET}       
