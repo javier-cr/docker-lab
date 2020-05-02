@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "description": "This file keeps track of which plugins should be installed on start up.",
+  "dependencies": {
+    "homebridge-hue": "^0.11.64",
+    "homebridge-ifttt": "^0.4.1",
+    "homebridge-smartthings-v2": "^2.3.3",
+    "homebridge-tplink-smarthome": "^4.0.1"
+  }
+}
