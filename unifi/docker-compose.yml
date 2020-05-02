@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+ unifi-controller:
+   container_name: unifi_controller
+   image: ${IMAGE}
+   restart: always
+   volumes:
+     - './:/unifi'
+    
+   ports:
+     - '3478:3478/udp' #STUN service
+     - '10001:10001/udp' #UBNT discovery
+     - '6789:6789/tcp' #Speed test
+     - '80:80/tcp'
+     - '8880:8880/tcp' #Device commmand/control
+     - '443:443/tcp' 
+     - '8843:8843/tcp' #WebGUI
+   environment:
+     - TZ=${TZ}
+     - RUNAS_UID0=false
+     - UNIFI_HTTPS_PORT=${HTTPS_PORT}
+     - UNIFI_HTTP_PORT=${HTTP_PORT}
+   labels:
+     - 'unifi-controller'
+   networks:
+     cont-network:
+       ipv4_address: ${IPV4_ADDRESS}
+
+networks:
+  cont-network:
+    driver: macvlan
+    driver_opts:
+      parent: ${DRIVER_PARENT}
+    ipam:
+      config:
+      - subnet: ${SUBNET}        
